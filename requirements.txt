@@ -1,1 +1,4 @@
-streamlit>=1.40
+streamlit[auth]>=1.66
+streamlit-geolocation==0.0.10
+gspread>=6
+google-auth>=2

@@ -2,31 +2,42 @@ MeteoAgro - Beta (prototipo funcional)
 =====================================
 
 Qué hace:
-  - Busca la estación de la Dirección Meteorológica de Chile (DMC) más cercana a tu campo.
-  - Muestra temperatura, humedad, mínima, máxima y lluvia de esa estación.
-  - Entrega una alerta simple por cultivo (palto, vid y trigo) con la acción a tomar.
-  - Tiene un modo simulación para mostrar cómo se ve una alerta de helada, calor u hongos.
-  - Funciona SIN internet con la consulta real guardada el 10-11-2026 (carpeta "datos").
+  - Busca la estación de la Dirección Meteorológica de Chile (DMC) más cercana a tu campo
+    (eliges región y comuna, o usas la ubicación del celular).
+  - Muestra temperatura, humedad, mínima, máxima, lluvia y las últimas 12 horas de esa estación.
+  - Entrega alertas de helada, calor y hongos para 31 cultivos, con la acción a tomar.
+  - Login con Google: cada persona guarda su campo y sus cultivos (en una hoja de Google Sheets).
+  - Alertas automáticas por correo: todos los días a las 18:00 revisa el pronóstico de mañana
+    (Open-Meteo) y avisa si hay riesgo para los cultivos de cada persona.
+  - Si la DMC no responde, usa la consulta real guardada el 10-11-2026 (carpeta "datos").
 
-Cómo abrirla en Windows (PowerShell):
-  1. Instalar Streamlit (solo la primera vez):
-         python -m pip install streamlit
-  2. Entrar a esta carpeta:
-         cd $HOME\MeteoAgro\meteoagro-beta
-  3. Abrir la app:
-         python -m streamlit run app.py
-  4. Se abre sola en el navegador (dirección http://localhost:8501).
-     Si PowerShell pregunta un "Email", solo aprieta Enter.
-  5. Para cerrarla: vuelve a PowerShell y aprieta Ctrl + C.
+App en internet: https://meteoagro-chile.streamlit.app/
+  Cada vez que subes archivos nuevos a GitHub, la app se actualiza sola en 1-2 minutos.
 
-Datos en vivo:
-  En la barra de la izquierda (Ajustes de datos) activa "Usar datos en vivo de la DMC"
-  y escribe tu correo y tu API key. Si algo falla, la app usa los datos guardados.
+Claves y contraseñas:
+  NUNCA van en estos archivos ni en GitHub. Van solo en:
+    - Streamlit Cloud: Settings > Secrets (para la app)
+    - GitHub: Settings > Secrets and variables > Actions (para las alertas por correo)
+  La guía de configuración paso a paso explica cada una.
 
 Archivos:
-  app.py                    La app (pantallas y diseño).
-  dmc.py                    Lee y limpia los datos de la DMC.
-  reglas.py                 Umbrales y alertas por cultivo (por validar con INIA).
-  datos/                    Consulta real guardada de la DMC (10-11-2026).
-  probar_token_dmc.py       Revisa si tu API key de la DMC está bien copiada.
-  .streamlit/config.toml    Colores de MeteoAgro.
+  app.py                        La app (pantallas y diseño).
+  dmc.py                        Lee y limpia los datos de la DMC.
+  reglas.py                     Límites y alertas por cultivo, con sus fuentes.
+  perfiles.py                   Guarda y lee los perfiles en Google Sheets.
+  enviar_alertas.py             Revisa el pronóstico y manda los correos de alerta.
+  .github/workflows/alertas.yml Le dice a GitHub que corra enviar_alertas.py cada día.
+  datos/                        Comunas de Chile y consulta real guardada de la DMC.
+  probar_token_dmc.py           Revisa si tu API key de la DMC está bien copiada.
+  .streamlit/config.toml        Colores de MeteoAgro.
+  requirements.txt              Programas que Streamlit Cloud instala para la app.
+
+Abrirla en tu computador (opcional, PowerShell):
+  1. python -m pip install -r requirements.txt
+  2. cd $HOME\MeteoAgro\meteoagro-beta
+  3. python -m streamlit run app.py   (se abre en http://localhost:8501; Ctrl + C para cerrar)
+
+Datos y licencias:
+  Datos medidos: Dirección Meteorológica de Chile. Pronóstico: Open-Meteo.com (CC BY 4.0,
+  gratis solo para uso no comercial: si MeteoAgro cobra o muestra publicidad, hay que
+  contratar su plan comercial o cambiar de proveedor). Comunas: 2x3-la/geo-chile (MIT).
