@@ -1,0 +1,32 @@
+MeteoAgro - Beta (prototipo funcional)
+=====================================
+
+Qué hace:
+  - Busca la estación de la Dirección Meteorológica de Chile (DMC) más cercana a tu campo.
+  - Muestra temperatura, humedad, mínima, máxima y lluvia de esa estación.
+  - Entrega una alerta simple por cultivo (palto, vid y trigo) con la acción a tomar.
+  - Tiene un modo simulación para mostrar cómo se ve una alerta de helada, calor u hongos.
+  - Funciona SIN internet con la consulta real guardada el 10-11-2026 (carpeta "datos").
+
+Cómo abrirla en Windows (PowerShell):
+  1. Instalar Streamlit (solo la primera vez):
+         python -m pip install streamlit
+  2. Entrar a esta carpeta:
+         cd $HOME\MeteoAgro\meteoagro-beta
+  3. Abrir la app:
+         python -m streamlit run app.py
+  4. Se abre sola en el navegador (dirección http://localhost:8501).
+     Si PowerShell pregunta un "Email", solo aprieta Enter.
+  5. Para cerrarla: vuelve a PowerShell y aprieta Ctrl + C.
+
+Datos en vivo:
+  En la barra de la izquierda (Ajustes de datos) activa "Usar datos en vivo de la DMC"
+  y escribe tu correo y tu API key. Si algo falla, la app usa los datos guardados.
+
+Archivos:
+  app.py                    La app (pantallas y diseño).
+  dmc.py                    Lee y limpia los datos de la DMC.
+  reglas.py                 Umbrales y alertas por cultivo (por validar con INIA).
+  datos/                    Consulta real guardada de la DMC (10-11-2026).
+  probar_token_dmc.py       Revisa si tu API key de la DMC está bien copiada.
+  .streamlit/config.toml    Colores de MeteoAgro.
